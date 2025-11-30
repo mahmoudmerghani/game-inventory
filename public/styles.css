@@ -128,10 +128,19 @@ footer {
     border-top: 1px solid #1a1f2e;
 }
 
+/* Header Actions */
+.header-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+}
+
 /* Back Link */
 .back-link {
     display: inline-block;
-    margin-top: 1rem;
     padding: 0.6rem 1.5rem;
     background-color: #1a1f2e;
     color: #8b92a7;
@@ -146,6 +155,26 @@ footer {
     background-color: #2a3142;
     color: #e4e6eb;
     border-color: #3a4152;
+}
+
+/* Add Button */
+.add-btn {
+    display: inline-block;
+    padding: 0.6rem 1.5rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border: 1px solid transparent;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.add-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4);
 }
 
 /* Games Grid */
@@ -322,6 +351,142 @@ footer {
     padding: 4rem 0;
 }
 
+/* Form Styles */
+.game-form {
+    max-width: 700px;
+    margin: 0 auto 4rem;
+    background: linear-gradient(135deg, #1a1f2e 0%, #151923 100%);
+    border: 1px solid #2a3142;
+    border-radius: 12px;
+    padding: 2.5rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    color: #e4e6eb;
+    font-size: 0.95rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background-color: #0a0e17;
+    border: 1px solid #2a3142;
+    border-radius: 6px;
+    color: #e4e6eb;
+    font-size: 1rem;
+    font-family: inherit;
+    transition: all 0.2s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
+
+.checkbox-group {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 0.75rem;
+    padding: 1rem;
+    background-color: #0a0e17;
+    border: 1px solid #2a3142;
+    border-radius: 6px;
+}
+
+.checkbox-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.checkbox-item input[type="checkbox"] {
+    width: auto;
+    cursor: pointer;
+    accent-color: #667eea;
+}
+
+.checkbox-item label {
+    margin: 0;
+    cursor: pointer;
+    color: #8b92a7;
+    font-size: 0.9rem;
+}
+
+.no-data {
+    color: #8b92a7;
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+.form-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+    justify-content: flex-end;
+}
+
+.submit-btn {
+    padding: 0.75rem 2rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4);
+}
+
+.submit-btn:active {
+    transform: translateY(0);
+}
+
+.cancel-btn {
+    padding: 0.75rem 2rem;
+    background-color: #1a1f2e;
+    color: #8b92a7;
+    text-decoration: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 600;
+    border: 1px solid #2a3142;
+    transition: all 0.2s ease;
+    display: inline-block;
+}
+
+.cancel-btn:hover {
+    background-color: #2a3142;
+    color: #e4e6eb;
+    border-color: #3a4152;
+}
+
 @media (max-width: 768px) {
     h1 {
         font-size: 2.5rem;
@@ -347,6 +512,28 @@ footer {
     .games-grid {
         grid-template-columns: 1fr;
         gap: 1.5rem;
+    }
+    
+    .game-form {
+        padding: 1.5rem;
+    }
+    
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .checkbox-group {
+        grid-template-columns: 1fr;
+    }
+    
+    .form-actions {
+        flex-direction: column;
+    }
+    
+    .submit-btn,
+    .cancel-btn {
+        width: 100%;
+        text-align: center;
     }
 }
 

@@ -64,7 +64,7 @@ async function getAllGamesInGenre(genreId) {
 
 async function insertGame({
     title,
-    genres,
+    genres = [],
     description,
     developer,
     year,

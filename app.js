@@ -18,4 +18,8 @@ app.use("/games", gamesRouter);
 
 app.use("/genres", genresRouter);
 
+app.use((error, req, res, next) => {
+    res.send(error);
+})
+
 app.listen(8080);
