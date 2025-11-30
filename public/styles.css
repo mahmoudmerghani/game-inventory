@@ -249,6 +249,79 @@ footer {
     padding: 4rem 0;
 }
 
+/* Genres Grid */
+.genres-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 4rem;
+}
+
+.genre-card {
+    background: linear-gradient(135deg, #1a1f2e 0%, #151923 100%);
+    border: 1px solid #2a3142;
+    border-radius: 12px;
+    padding: 2rem 1.5rem;
+    text-decoration: none;
+    color: #e4e6eb;
+    transition: all 0.3s ease;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.genre-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+.genre-card:hover::before {
+    transform: scaleX(1);
+}
+
+.genre-card:hover {
+    transform: translateY(-5px);
+    border-color: #3a4152;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.genre-icon {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.genre-name {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #ffffff;
+    margin: 0;
+}
+
+.game-count {
+    color: #8b92a7;
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+.no-genres {
+    grid-column: 1 / -1;
+    text-align: center;
+    color: #8b92a7;
+    font-size: 1.2rem;
+    padding: 4rem 0;
+}
+
 @media (max-width: 768px) {
     h1 {
         font-size: 2.5rem;

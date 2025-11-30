@@ -1,5 +1,20 @@
 import pool from "./pool.js";
 
+// convert genres to an array instead of duplicate game rows
+function normalizeGameObjects(gameRows) {
+    const games = {};
+
+    for (const row of gameRows) {
+        if (games[row.id]) {
+            games[row.id].genre.push(row.genre);
+        } else {
+            games[row.id] = { ...row, genre: [row.genre] };
+        }
+    }
+
+    return Object.values(games);
+}
+
 async function getAllGames() {
     const { rows } = await pool.query(`
         SELECT g.*, ge.name genre FROM game_genres gg JOIN
@@ -7,23 +22,45 @@ async function getAllGames() {
         genres ge ON ge.id = gg.genre_id;
     `);
 
-    const games = {};
-    
-    for (const row of rows) {
-        if (games[row.id]) {
-            games[row.id].genre.push(row.genre);
-        } else {
-            games[row.id] = {...row, genre: [row.genre]};
-        }
-    }
-
-    return Object.values(games);
+    return normalizeGameObjects(rows);
 }
 
 async function getAllGenres() {
     const { rows } = await pool.query("SELECT * FROM genres");
     return rows;
 }
+
+async function getAllGamesInGenre(genreId) {
+    const { rows: gameIdRows } = await pool.query(
+        `
+        SELECT g.id 
+        FROM game_genres gg 
+        JOIN games g ON gg.game_id = g.id
+        WHERE gg.genre_id = $1;
+        `,
+        [genreId]
+    );
+
+    const gameIds = gameIdRows.map(row => row.id);
+
+    if (gameIds.length === 0) return [];
+
+    const { rows: games } = await pool.query(
+        `
+        SELECT 
+            g.*, 
+            ge.name AS genre
+        FROM game_genres gg 
+        JOIN games g ON g.id = gg.game_id 
+        JOIN genres ge ON ge.id = gg.genre_id
+        WHERE g.id = ANY($1);
+        `,
+        [gameIds]
+    );
+
+    return normalizeGameObjects(games);
+}
+
 
 async function insertGame({
     title,
@@ -80,4 +117,5 @@ export default {
     getAllGames,
     getAllGenres,
     insertGame,
+    getAllGamesInGenre
 };
