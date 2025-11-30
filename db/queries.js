@@ -31,14 +31,15 @@ async function insertGame({
     description,
     developer,
     year,
+    price,
     imageUrl,
 }) {
     const { rows } = await pool.query(
         `
-        INSERT INTO games (title, description, developer, year, image_url)
-        VALUES ($1, $2, $3, $4, $5) RETURNING id ;
+        INSERT INTO games (title, description, developer, year, price, image_url)
+        VALUES ($1, $2, $3, $4, $5, $6) RETURNING id;
     `,
-        [title, description, developer, year, imageUrl]
+        [title, description, developer, year, price, imageUrl]
     );
 
     const gameId = rows[0].id;

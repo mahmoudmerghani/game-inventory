@@ -1,5 +1,6 @@
 import express from "express"
 import { join } from "node:path";
+import gamesRouter from "./routes/gamesRouter.js";
 
 const app = express();
 
@@ -11,5 +12,7 @@ app.use(express.static(join(import.meta.dirname, "public")));
 app.get("/", (req, res) => {
     res.render("index");
 });
+
+app.use("/games", gamesRouter);
 
 app.listen(8080);

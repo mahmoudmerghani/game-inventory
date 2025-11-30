@@ -7,6 +7,7 @@ CREATE TABLE IF NOT EXISTS games (
   description TEXT,
   developer TEXT,
   year INTEGER,
+  price NUMERIC(10, 2) NOT NULL,
   image_url TEXT
 );
 `);

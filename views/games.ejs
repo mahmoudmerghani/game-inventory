@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles.css">
+    <title>Games - Game Inventory</title>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">🎮</div>
+            <h1>Game Library</h1>
+            <p class="subtitle">Browse your entire collection</p>
+            <a href="/" class="back-link">← Back to Home</a>
+        </header>
+        
+        <div class="games-grid">
+            <% if (locals.games && games.length > 0) { %>
+                <% games.forEach((game) => { %>
+                    <div class="game-card">
+                        <% if (game.image_url) { %>
+                            <div class="image">
+                                <img src="<%= game.image_url %>" alt="<%= game.description || game.title %>">
+                            </div>
+                        <% } %>
+                        <div class="text">
+                            <h2 class="title"><%= game.title %></h2>
+                            <% if (game.description) { %>
+                                <p class="description"><%= game.description %></p>
+                            <% } %>
+                            <% if (game.genre && game.genre.length > 0) { %>
+                                <div class="genres">
+                                    <% game.genre.forEach((g) => { %>
+                                        <span class="genre"><%= g %></span>
+                                    <% }); %>
+                                </div>
+                            <% } %>
+                            <% if (game.developer) { %>
+                                <p class="developer">Developer: <%= game.developer %></p>
+                            <% } %>
+                            <% if (game.year) { %>
+                                <p class="year">Year: <%= game.year %></p>
+                            <% } %>
+                            <% if (game.price) { %>
+                                <p class="price">$<%= game.price %></p>
+                            <% } %>
+                        </div>
+                    </div>
+                <% }); %>
+            <% } else { %>
+                <p class="no-games">No games found in the inventory.</p>
+            <% } %>
+        </div>
+        
+        <footer>
+            <p>&copy; 2025 Game Inventory. All rights reserved.</p>
+        </footer>
+    </div>
+</body>
+</html>
