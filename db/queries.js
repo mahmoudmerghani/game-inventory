@@ -15,6 +15,17 @@ function normalizeGameObjects(gameRows) {
     return Object.values(games);
 }
 
+async function getGameByTitle(title) {
+    const { rows } = await pool.query(
+        `
+        SELECT * FROM games WHERE title = $1;
+        `,
+        [title]
+    );
+
+    return rows[0] || null;
+}
+
 async function getAllGames() {
     const { rows } = await pool.query(`
         SELECT g.*, ge.name genre FROM game_genres gg JOIN
@@ -41,7 +52,7 @@ async function getAllGamesInGenre(genreId) {
         [genreId]
     );
 
-    const gameIds = gameIdRows.map(row => row.id);
+    const gameIds = gameIdRows.map((row) => row.id);
 
     if (gameIds.length === 0) return [];
 
@@ -60,7 +71,6 @@ async function getAllGamesInGenre(genreId) {
 
     return normalizeGameObjects(games);
 }
-
 
 async function insertGame({
     title,
@@ -81,28 +91,15 @@ async function insertGame({
 
     const gameId = rows[0].id;
 
-    for (const genre of genres) {
-        let genreId;
-
+    for (const genreId of genres) {
         const { rows: existingGenres } = await pool.query(
             `
-            SELECT id FROM genres WHERE name = $1;
+            SELECT * FROM genres WHERE id = $1;
             `,
-            [genre]
+            [genreId]
         );
 
-        if (existingGenres.length === 0) {
-            const { rows: newGenre } = await pool.query(
-                `
-                INSERT INTO genres (name) VALUES ($1) RETURNING id
-                `,
-                [genre]
-            );
-
-            genreId = newGenre[0].id;
-        } else {
-            genreId = existingGenres[0].id;
-        }
+        if (existingGenres.length === 0) continue;
 
         await pool.query(
             `
@@ -117,5 +114,6 @@ export default {
     getAllGames,
     getAllGenres,
     insertGame,
-    getAllGamesInGenre
+    getAllGamesInGenre,
+    getGameByTitle,
 };

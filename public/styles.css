@@ -58,6 +58,7 @@ h1 {
     font-size: 1.2rem;
     font-weight: 400;
     margin-top: 0.5rem;
+    margin-block: 1rem;
 }
 
 .nav-cards {
@@ -175,6 +176,83 @@ footer {
 .add-btn:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4);
+}
+
+/* Success Message */
+.success-message {
+    max-width: 600px;
+    margin: 0 auto 2rem;
+    padding: 1rem 1.5rem;
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(5, 150, 105, 0.15) 100%);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.success-icon {
+    color: #10b981;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.success-message p {
+    color: #10b981;
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+/* Error Messages */
+.error-messages {
+    max-width: 700px;
+    margin: 0 auto 2rem;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.15) 0%, rgba(220, 38, 38, 0.15) 100%);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    border-radius: 8px;
+    animation: slideDown 0.3s ease-out;
+}
+
+.error-messages h3 {
+    color: #ef4444;
+    font-size: 1.1rem;
+    margin-bottom: 0.75rem;
+    font-weight: 600;
+}
+
+.error-messages ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.error-messages li {
+    color: #ef4444;
+    font-size: 0.95rem;
+    padding: 0.4rem 0;
+    padding-left: 1.5rem;
+    position: relative;
+}
+
+.error-messages li::before {
+    content: '•';
+    position: absolute;
+    left: 0.5rem;
+    font-weight: bold;
 }
 
 /* Games Grid */
