@@ -4,14 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/styles.css">
-    <title>Add Game - Game Inventory</title>
+    <title><%= locals.type === 'edit' ? 'Edit' : 'Add' %> Game - Game Inventory</title>
 </head>
 <body>
     <div class="container">
         <header>
             <div class="logo">🎮</div>
-            <h1>Add New Game</h1>
-            <p class="subtitle">Add a game to your collection</p>
+            <h1><%= locals.type === 'edit' ? 'Edit Game' : 'Add New Game' %></h1>
+            <p class="subtitle"><%= locals.type === 'edit' ? 'Update game information' : 'Add a game to your collection' %></p>
             <a href="/games" class="back-link">← Back to Games</a>
         </header>
         
@@ -26,7 +26,7 @@
             </div>
         <% } %>
         
-        <form action="/games" method="POST" class="game-form">
+        <form action="<%= locals.type === 'edit' ? `/games/${formData.id}/edit` : '/games/add' %>" method="POST" class="game-form">
             <div class="form-group">
                 <label for="title">Title</label>
                 <input type="text" name="title" id="title" placeholder="e.g., The Legend of Zelda: Breath of the Wild" value="<%= locals.formData ? formData.title || '' : '' %>" required>
@@ -80,7 +80,7 @@
             </div>
             
             <div class="form-actions">
-                <button type="submit" class="submit-btn">Add Game</button>
+                <button type="submit" class="submit-btn"><%= locals.type === 'edit' ? 'Update Game' : 'Add Game' %></button>
                 <a href="/games" class="cancel-btn">Cancel</a>
             </div>
         </form>

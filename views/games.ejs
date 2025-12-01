@@ -10,10 +10,14 @@
     <div class="container">
         <header>
             <div class="logo">🎮</div>
-            <h1>Game Library</h1>
-            <p class="subtitle">Browse your entire collection</p>
+            <h1><%= locals.selectedGenre ? selectedGenre.name : 'Game Library' %></h1>
+            <p class="subtitle"><%= locals.selectedGenre ? `Browse ${selectedGenre.name} games` : 'Browse your entire collection' %></p>
             <div class="header-actions">
-                <a href="/" class="back-link">← Back to Home</a>
+                <% if (locals.selectedGenre) { %>
+                    <a href="/genres" class="back-link">← Back to Genres</a>
+                <% } else { %>
+                    <a href="/" class="back-link">← Back to Home</a>
+                <% } %>
                 <a href="/games/add" class="add-btn">+ Add Game</a>
             </div>
         </header>
@@ -29,9 +33,9 @@
             <% if (locals.games && games.length > 0) { %>
                 <% games.forEach((game) => { %>
                     <div class="game-card">
-                        <% if (game.image_url) { %>
+                        <% if (game.imageUrl) { %>
                             <div class="image">
-                                <img src="<%= game.image_url %>" alt="<%= game.description || game.title %>">
+                                <img src="<%= game.imageUrl %>" alt="<%= game.description || game.title %>">
                             </div>
                         <% } %>
                         <div class="text">
@@ -39,10 +43,10 @@
                             <% if (game.description) { %>
                                 <p class="description"><%= game.description %></p>
                             <% } %>
-                            <% if (game.genre && game.genre.length > 0) { %>
+                            <% if (game.genres && game.genres.length > 0) { %>
                                 <div class="genres">
-                                    <% game.genre.forEach((g) => { %>
-                                        <span class="genre"><%= g %></span>
+                                    <% game.genres.forEach((genre) => { %>
+                                        <a class="genre" href="/genres/<%= genre.id %>"><%= genre.name %></a>
                                     <% }); %>
                                 </div>
                             <% } %>
@@ -55,6 +59,12 @@
                             <% if (game.price) { %>
                                 <p class="price">$<%= game.price %></p>
                             <% } %>
+                        </div>
+                        <div class="game-controls">
+                            <a href="/games/<%= game.id %>/edit" class="control-btn edit-btn">Edit</a>
+                            <form action="/games/<%= game.id %>/delete" method="POST" style="flex: 1;">
+                                <button type="submit" class="control-btn delete-btn">Delete</button>
+                            </form>
                         </div>
                     </div>
                 <% }); %>

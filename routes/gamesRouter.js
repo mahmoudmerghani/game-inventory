@@ -7,6 +7,8 @@ gamesRouter.use(express.urlencoded({ extended: true }));
 
 gamesRouter.get("/", gamesController.getAllGames);
 gamesRouter.get("/add", gamesController.getAddGameForm);
-gamesRouter.post("/", gamesController.insertGame);
+gamesRouter.post("/add", gamesController.insertGame);
+gamesRouter.get("/:gameId/edit", gamesController.getEditGameForm);
+gamesRouter.post("/:gameId/edit", gamesController.updateGame);
 
 export default gamesRouter;

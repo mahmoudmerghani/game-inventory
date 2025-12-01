@@ -57,7 +57,24 @@ async function getAllGames(req, res) {
 
 async function getAddGameForm(req, res) {
     const genres = await queries.getAllGenres();
-    res.render("addGame", { genres });
+    res.render("gameForm", { genres });
+}
+
+async function getEditGameForm(req, res) {
+    const { gameId } = req.params;
+    const game = await queries.getGameById(gameId);
+    const genres = await queries.getAllGenres();
+    // const gameGenres = 
+
+    if (!game) {
+        throw new Error("Game does not exist");
+    }
+
+    res.render("gameForm", {
+        formData: { ...game, imageUrl: game.image_url },
+        genres,
+        type: "add"
+    });
 }
 
 const insertGame = [
@@ -67,7 +84,7 @@ const insertGame = [
 
         if (!errors.isEmpty()) {
             const genres = await queries.getAllGenres();
-            return res.render("addGame", {
+            return res.render("gameForm", {
                 genres,
                 errors: errors.array(),
                 formData: req.body,
@@ -79,8 +96,12 @@ const insertGame = [
     },
 ];
 
+const updateGame = (req, res) => null;
+
 export default {
     getAllGames,
     getAddGameForm,
+    getEditGameForm,
+    updateGame,
     insertGame,
 };

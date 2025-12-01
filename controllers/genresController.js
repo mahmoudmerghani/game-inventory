@@ -8,7 +8,8 @@ async function getAllGenres(req, res) {
 async function getAllGamesInGenre(req, res) {
     const { genreId } = req.params;
     const games = await queries.getAllGamesInGenre(genreId);
-    res.render("games", { games });
+    const selectedGenre = await queries.getGenreById(genreId);
+    res.render("games", { games, selectedGenre });
 }
 
 export default {
