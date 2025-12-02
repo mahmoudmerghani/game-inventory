@@ -184,6 +184,18 @@ async function editGame(
     }
 }
 
+async function deleteGame(gameId) {
+    await pool.query(
+        `DELETE FROM game_genres WHERE game_id = $1`,
+        [gameId]
+    );
+
+    await pool.query(
+        `DELETE FROM games WHERE id = $1`,
+        [gameId]
+    );
+}
+
 export default {
     getAllGames,
     getAllGenres,
@@ -193,4 +205,5 @@ export default {
     getGameById,
     getGenreById,
     editGame,
+    deleteGame,
 };

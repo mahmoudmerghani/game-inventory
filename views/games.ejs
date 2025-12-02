@@ -36,6 +36,13 @@
             </div>
         <% } %>
         
+        <% if (locals.gameDeleted) { %>
+            <div class="success-message">
+                <span class="success-icon">✔</span>
+                <p>Game deleted successfully!</p>
+            </div>
+        <% } %>
+        
         <div class="games-grid">
             <% if (locals.games && games.length > 0) { %>
                 <% games.forEach((game) => { %>

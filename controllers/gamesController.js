@@ -46,7 +46,8 @@ async function getAllGames(req, res) {
     const games = await queries.getAllGames();
     const gameAdded = req.query.gameAdded === "true";
     const gameEdited = req.query.gameEdited === "true";
-    res.render("games", { games, gameAdded, gameEdited });
+    const gameDeleted = req.query.gameDeleted === "true";
+    res.render("games", { games, gameAdded, gameEdited, gameDeleted });
 }
 
 async function getAddGameForm(req, res) {
@@ -128,10 +129,18 @@ const editGame = [
     },
 ];
 
+async function deleteGame(req, res) {
+    const { gameId } = req.params;
+    await queries.deleteGame(gameId);
+
+    res.redirect("/games?gameDeleted=true");
+}
+
 export default {
     getAllGames,
     getAddGameForm,
     getEditGameForm,
     editGame,
     insertGame,
+    deleteGame,
 };
