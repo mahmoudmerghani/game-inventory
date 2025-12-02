@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles.css">
+    <title><%= locals.type === 'edit' ? 'Edit' : 'Add' %> Genre - Game Inventory</title>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">📚</div>
+            <h1><%= locals.type === 'edit' ? 'Edit Genre' : 'Add New Genre' %></h1>
+            <p class="subtitle"><%= locals.type === 'edit' ? 'Update genre information' : 'Add a new genre to your collection' %></p>
+            <a href="/genres" class="back-link">← Back to Genres</a>
+        </header>
+        
+        <% if (locals.errors && errors.length > 0) { %>
+            <div class="error-messages">
+                <h3>⚠️ Please fix the following errors:</h3>
+                <ul>
+                    <% errors.forEach(error => { %>
+                        <li><%= error.msg %></li>
+                    <% }); %>
+                </ul>
+            </div>
+        <% } %>
+        
+        <form action="<%= locals.type === 'edit' ? `/genres/${formData.id}/edit` : '/genres/add' %>" method="POST" class="game-form">
+            <div class="form-group">
+                <label for="name">Genre Name</label>
+                <input 
+                    type="text" 
+                    name="name" 
+                    id="name" 
+                    placeholder="e.g., Action, RPG, Adventure" 
+                    value="<%= locals.formData ? formData.name || '' : '' %>" 
+                    required
+                >
+            </div>
+            
+            <div class="form-actions">
+                <button type="submit" class="submit-btn"><%= locals.type === 'edit' ? 'Update Genre' : 'Add Genre' %></button>
+                <a href="/genres" class="cancel-btn">Cancel</a>
+            </div>
+        </form>
+        
+        <footer>
+            <p>&copy; 2025 Game Inventory. All rights reserved.</p>
+        </footer>
+    </div>
+</body>
+</html>

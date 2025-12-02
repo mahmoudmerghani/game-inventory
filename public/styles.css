@@ -418,6 +418,10 @@ footer {
     margin-bottom: 4rem;
 }
 
+.genre-card-wrapper {
+    position: relative;
+}
+
 .genre-card {
     background: linear-gradient(135deg, #1a1f2e 0%, #151923 100%);
     border: 1px solid #2a3142;
@@ -433,6 +437,37 @@ footer {
     flex-direction: column;
     align-items: center;
     gap: 0.75rem;
+}
+
+.genre-delete-form {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    margin: 0;
+}
+
+.genre-delete-btn {
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    background-color: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    border-radius: 50%;
+    font-size: 1.5rem;
+    line-height: 1;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    justify-content: center;
+    font-family: inherit;
+}
+
+.genre-delete-btn:hover {
+    background-color: #ef4444;
+    color: #ffffff;
+    border-color: #ef4444;
+    transform: scale(1.1);
 }
 
 .genre-card::before {

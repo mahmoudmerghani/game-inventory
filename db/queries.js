@@ -185,15 +185,35 @@ async function editGame(
 }
 
 async function deleteGame(gameId) {
-    await pool.query(
-        `DELETE FROM game_genres WHERE game_id = $1`,
-        [gameId]
+    await pool.query(`DELETE FROM game_genres WHERE game_id = $1`, [gameId]);
+
+    await pool.query(`DELETE FROM games WHERE id = $1`, [gameId]);
+}
+
+async function getGenreByName(name) {
+    const { rows } = await pool.query(
+        `
+        SELECT * FROM genres WHERE name = $1;
+        `,
+        [name]
     );
 
+    return rows[0] || null;
+}
+
+async function addGenre({ name }) {
     await pool.query(
-        `DELETE FROM games WHERE id = $1`,
-        [gameId]
+        `
+        INSERT INTO genres (name) VALUES ($1);
+        `,
+        [name]
     );
+}
+
+async function deleteGenre(genreId) {
+    await pool.query(`DELETE FROM game_genres WHERE genre_id = $1`, [genreId]);
+
+    await pool.query(`DELETE FROM genres WHERE id = $1`, [genreId]);
 }
 
 export default {
@@ -206,4 +226,7 @@ export default {
     getGenreById,
     editGame,
     deleteGame,
+    getGenreByName,
+    addGenre,
+    deleteGenre,
 };

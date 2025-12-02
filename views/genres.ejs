@@ -12,15 +12,37 @@
             <div class="logo">📚</div>
             <h1>Game Genres</h1>
             <p class="subtitle">Explore games by category</p>
-            <a href="/" class="back-link">← Back to Home</a>
+            <div class="header-actions">
+                <a href="/" class="back-link">← Back to Home</a>
+                <a href="/genres/add" class="add-btn">+ Add Genre</a>
+            </div>
         </header>
+        
+        <% if (locals.genreAdded) { %>
+            <div class="success-message">
+                <span class="success-icon">✔</span>
+                <p>Genre added successfully!</p>
+            </div>
+        <% } %>
+        
+        <% if (locals.genreDeleted) { %>
+            <div class="success-message">
+                <span class="success-icon">✔</span>
+                <p>Genre deleted successfully!</p>
+            </div>
+        <% } %>
         
         <div class="genres-grid">
             <% if (locals.genres && genres.length > 0) { %>
                 <% genres.forEach(genre => { %>
-                    <a href="/genres/<%= genre.id %>" class="genre-card">
-                        <h2 class="genre-name"><%= genre.name %></h2>
-                    </a>
+                    <div class="genre-card-wrapper">
+                        <a href="/genres/<%= genre.id %>" class="genre-card">
+                            <h2 class="genre-name"><%= genre.name %></h2>
+                        </a>
+                        <form action="/genres/<%= genre.id %>/delete" method="POST" class="genre-delete-form">
+                            <button type="submit" class="genre-delete-btn" onclick="return confirm('Are you sure you want to delete this genre?')">×</button>
+                        </form>
+                    </div>
                 <% }); %>
             <% } else { %>
                 <p class="no-genres">No genres found.</p>
