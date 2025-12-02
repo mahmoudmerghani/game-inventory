@@ -333,6 +333,15 @@ footer {
     border-radius: 4px;
     font-size: 0.85rem;
     font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.game-card .genre:hover {
+    background-color: #667eea;
+    color: #ffffff;
+    transform: translateY(-1px);
 }
 
 .game-card .developer,
@@ -538,6 +547,29 @@ footer {
     font-size: 0.95rem;
     font-weight: 500;
     margin-bottom: 0.5rem;
+}
+
+.label-with-link {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.label-with-link label {
+    margin-bottom: 0;
+}
+
+.add-link {
+    color: #667eea;
+    font-size: 0.85rem;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.add-link:hover {
+    color: #764ba2;
+    text-decoration: underline;
 }
 
 .form-group input,
