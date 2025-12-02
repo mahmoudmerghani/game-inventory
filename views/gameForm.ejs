@@ -61,7 +61,7 @@
                         <% genres.forEach(genre => { %>
                             <% 
                                 const isChecked = locals.formData && formData.genres && 
-                                    (Array.isArray(formData.genres) ? formData.genres.includes(String(genre.id)) : formData.genres === String(genre.id));
+                                     formData.genres.some((g) => g.id === genre.id);
                             %>
                             <div class="checkbox-item">
                                 <input type="checkbox" name="genres" value="<%= genre.id %>" id="genre-<%= genre.id %>" <%= isChecked ? 'checked' : '' %>>

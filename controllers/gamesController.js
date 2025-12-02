@@ -7,14 +7,7 @@ const validateGame = [
         .notEmpty()
         .withMessage("Title is required")
         .isLength({ min: 1, max: 200 })
-        .withMessage("Title must be between 1 and 200 characters")
-        .custom(async (value) => {
-            const game = await queries.getGameByTitle(value);
-
-            if (game) {
-                throw new Error("A game already exists with the same title");
-            }
-        }),
+        .withMessage("Title must be between 1 and 200 characters"),
 
     body("developer")
         .optional({ values: "falsy" })
@@ -52,33 +45,41 @@ const validateGame = [
 async function getAllGames(req, res) {
     const games = await queries.getAllGames();
     const gameAdded = req.query.gameAdded === "true";
-    res.render("games", { games, gameAdded });
+    const gameEdited = req.query.gameEdited === "true";
+    res.render("games", { games, gameAdded, gameEdited });
 }
 
 async function getAddGameForm(req, res) {
     const genres = await queries.getAllGenres();
-    res.render("gameForm", { genres });
+    res.render("gameForm", { genres, type: "add" });
 }
 
 async function getEditGameForm(req, res) {
     const { gameId } = req.params;
     const game = await queries.getGameById(gameId);
     const genres = await queries.getAllGenres();
-    // const gameGenres = 
 
     if (!game) {
         throw new Error("Game does not exist");
     }
 
     res.render("gameForm", {
-        formData: { ...game, imageUrl: game.image_url },
+        formData: game,
         genres,
-        type: "add"
+        type: "edit",
     });
 }
 
 const insertGame = [
     validateGame,
+    body("title").custom(async (value) => {
+        const game = await queries.getGameByTitle(value);
+
+        if (game) {
+            throw new Error("A game already exists with the same title");
+        }
+    }),
+
     async (req, res) => {
         const errors = validationResult(req);
 
@@ -88,6 +89,7 @@ const insertGame = [
                 genres,
                 errors: errors.array(),
                 formData: req.body,
+                type: "add",
             });
         }
 
@@ -96,12 +98,40 @@ const insertGame = [
     },
 ];
 
-const updateGame = (req, res) => null;
+const editGame = [
+    validateGame,
+    body("title").custom(async (value, { req }) => {
+        const game = await queries.getGameByTitle(value);
+
+        if (game && game.id !== parseInt(req.params.gameId)) {
+            throw new Error("A game already exists with the same title");
+        }
+    }),
+
+    async (req, res) => {
+        const errors = validationResult(req);
+
+        if (!errors.isEmpty()) {
+            const genres = await queries.getAllGenres();
+            return res.render("gameForm", {
+                genres,
+                errors: errors.array(),
+                formData: req.body,
+                type: "edit",
+            });
+        }
+
+        const { gameId } = req.params;
+
+        await queries.editGame(gameId, matchedData(req));
+        res.redirect("/games?gameEdited=true");
+    },
+];
 
 export default {
     getAllGames,
     getAddGameForm,
     getEditGameForm,
-    updateGame,
+    editGame,
     insertGame,
 };

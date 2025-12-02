@@ -12,6 +12,7 @@ function convertGameRowsToObjects(gameRows) {
             });
         } else {
             map.set(row.id, {
+                id: row.id,
                 title: row.title,
                 genres: row["genre_id"]
                     ? [{ id: row["genre_id"], name: row["genre"] }]
@@ -31,12 +32,17 @@ function convertGameRowsToObjects(gameRows) {
 async function getGameById(gameId) {
     const { rows } = await pool.query(
         `
-        SELECT * FROM games WHERE id = $1;
+        SELECT g.*, ge.name genre, ge.id genre_id FROM games g LEFT JOIN
+        game_genres gg ON g.id = gg.game_id LEFT JOIN 
+        genres ge ON ge.id = gg.genre_id
+        WHERE g.id = $1;
         `,
         [gameId]
     );
 
-    return rows[0] || null;
+    if (rows.length === 0) return null;
+
+    return convertGameRowsToObjects(rows)[0];
 }
 
 async function getGameByTitle(title) {
@@ -143,6 +149,40 @@ async function getGenreById(genreId) {
     return rows[0] || null;
 }
 
+async function editGame(
+    gameId,
+    { title, genres = [], description, developer, year, price, imageUrl }
+) {
+    await pool.query(
+        `
+        UPDATE games
+        SET title = $1,
+            description = $2,
+            developer = $3,
+            year = $4,
+            price = $5,
+            image_url = $6
+        WHERE id = $7
+        `,
+        [title, description, developer, year, price, imageUrl, gameId]
+    );
+
+    await pool.query(`DELETE FROM game_genres WHERE game_id = $1`, [gameId]);
+
+    for (const genreId of genres) {
+        const { rows: existingGenres } = await pool.query(
+            `SELECT * FROM genres WHERE id = $1`,
+            [genreId]
+        );
+
+        if (existingGenres.length === 0) continue;
+
+        await pool.query(
+            `INSERT INTO game_genres (game_id, genre_id) VALUES ($1, $2)`,
+            [gameId, genreId]
+        );
+    }
+}
 
 export default {
     getAllGames,
@@ -152,4 +192,5 @@ export default {
     getGameByTitle,
     getGameById,
     getGenreById,
+    editGame,
 };

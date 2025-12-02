@@ -9,6 +9,6 @@ gamesRouter.get("/", gamesController.getAllGames);
 gamesRouter.get("/add", gamesController.getAddGameForm);
 gamesRouter.post("/add", gamesController.insertGame);
 gamesRouter.get("/:gameId/edit", gamesController.getEditGameForm);
-gamesRouter.post("/:gameId/edit", gamesController.updateGame);
+gamesRouter.post("/:gameId/edit", gamesController.editGame);
 
 export default gamesRouter;

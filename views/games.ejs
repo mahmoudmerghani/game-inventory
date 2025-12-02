@@ -29,6 +29,13 @@
             </div>
         <% } %>
         
+        <% if (locals.gameEdited) { %>
+            <div class="success-message">
+                <span class="success-icon">✔</span>
+                <p>Game updated successfully!</p>
+            </div>
+        <% } %>
+        
         <div class="games-grid">
             <% if (locals.games && games.length > 0) { %>
                 <% games.forEach((game) => { %>
