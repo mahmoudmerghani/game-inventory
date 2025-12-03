@@ -22,7 +22,9 @@ app.use("/games", gamesRouter);
 app.use("/genres", genresRouter);
 
 app.use((error, req, res, next) => {
-    res.send(error);
-})
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+});
+
 
 app.listen(8080);
