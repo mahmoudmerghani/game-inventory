@@ -1,7 +1,7 @@
 import { config } from "dotenv";
 config();
 
-import express from "express"
+import express from "express";
 import { join } from "node:path";
 import gamesRouter from "./routes/gamesRouter.js";
 import genresRouter from "./routes/genresRouter.js";
@@ -21,10 +21,13 @@ app.use("/games", gamesRouter);
 
 app.use("/genres", genresRouter);
 
+app.use((req, res, next) => {
+    res.status(404).json({ error: "Not Found" });
+});
+
 app.use((error, req, res, next) => {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });
 });
-
 
 app.listen(8080);
