@@ -202,12 +202,14 @@ async function getGenreByName(name) {
 }
 
 async function addGenre({ name }) {
-    await pool.query(
+    const { rows } = await pool.query(
         `
-        INSERT INTO genres (name) VALUES ($1);
+        INSERT INTO genres (name) VALUES ($1) RETURNING id;
         `,
         [name]
     );
+
+    return rows[0].id;
 }
 
 async function deleteGenre(genreId) {
