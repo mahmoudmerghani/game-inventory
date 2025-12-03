@@ -30,7 +30,7 @@ async function getAllGamesInGenre(req, res) {
 }
 
 function getAddGenreForm(req, res) {
-    res.render("genreForm", { type: "add"});
+    res.render("genreForm", { type: "add" });
 }
 
 const addGenre = [
@@ -51,11 +51,31 @@ const addGenre = [
     },
 ];
 
-async function deleteGenre(req, res) {
-    const { genreId } = req.params;
-    await queries.deleteGenre(genreId);
+const deleteGenre = [
+    body("password")
+    .equals(process.env.SECRET)
+    .withMessage("Wrong password"),
 
-    res.redirect("/genres?genreDeleted=true");
+    async (req, res) => {
+        const errors = validationResult(req);
+
+        if (!errors.isEmpty()) {
+            return res.render("passwordForm", {
+                action: req.originalUrl,
+                errors: errors.array(),
+            });
+        }
+        
+        const { genreId } = req.params;
+        await queries.deleteGenre(genreId);
+
+        res.redirect("/genres?genreDeleted=true");
+    },
+];
+
+function getDeleteGenreForm(req, res) {
+    const { genreId } = req.params;
+    res.render("passwordForm", { action: `/genres/${genreId}/delete` });
 }
 
 export default {
@@ -63,5 +83,6 @@ export default {
     getAllGamesInGenre,
     addGenre,
     getAddGenreForm,
-    deleteGenre
+    deleteGenre,
+    getDeleteGenreForm,
 };

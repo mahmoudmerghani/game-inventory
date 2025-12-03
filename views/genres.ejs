@@ -39,9 +39,7 @@
                         <a href="/genres/<%= genre.id %>" class="genre-card">
                             <h2 class="genre-name"><%= genre.name %></h2>
                         </a>
-                        <form action="/genres/<%= genre.id %>/delete" method="POST" class="genre-delete-form">
-                            <button type="submit" class="genre-delete-btn" onclick="return confirm('Are you sure you want to delete this genre?')">×</button>
-                        </form>
+                        <a href="/genres/<%= genre.id %>/delete" class="genre-delete-btn">×</a>
                     </div>
                 <% }); %>
             <% } else { %>

@@ -76,9 +76,7 @@
                         </div>
                         <div class="game-controls">
                             <a href="/games/<%= game.id %>/edit" class="control-btn edit-btn">Edit</a>
-                            <form action="/games/<%= game.id %>/delete" method="POST" style="flex: 1;">
-                                <button type="submit" class="control-btn delete-btn" onclick="return confirm('Are you sure you want to delete this genre?')">Delete</button>
-                            </form>
+                            <a href="/games/<%= game.id %>/delete" class="control-btn delete-btn">Delete</a>
                         </div>
                     </div>
                 <% }); %>

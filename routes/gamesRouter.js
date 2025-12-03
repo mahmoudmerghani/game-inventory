@@ -10,6 +10,7 @@ gamesRouter.get("/add", gamesController.getAddGameForm);
 gamesRouter.post("/add", gamesController.insertGame);
 gamesRouter.get("/:gameId/edit", gamesController.getEditGameForm);
 gamesRouter.post("/:gameId/edit", gamesController.editGame);
+gamesRouter.get("/:gameId/delete", gamesController.getDeleteGameForm);
 gamesRouter.post("/:gameId/delete", gamesController.deleteGame);
 
 export default gamesRouter;

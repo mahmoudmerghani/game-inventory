@@ -8,6 +8,7 @@ genresRouter.use(express.urlencoded({ extended: true }));
 genresRouter.get("/", genresController.getAllGenres);
 genresRouter.get("/add", genresController.getAddGenreForm);
 genresRouter.post("/add", genresController.addGenre);
+genresRouter.get("/:genreId/delete", genresController.getDeleteGenreForm);
 genresRouter.post("/:genreId/delete", genresController.deleteGenre);
 genresRouter.get("/:genreId", genresController.getAllGamesInGenre);
 

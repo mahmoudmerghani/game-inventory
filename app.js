@@ -1,3 +1,6 @@
+import { config } from "dotenv";
+config();
+
 import express from "express"
 import { join } from "node:path";
 import gamesRouter from "./routes/gamesRouter.js";

@@ -82,6 +82,20 @@
                 <textarea name="description" id="description" rows="5" placeholder="Enter a brief description of the game..."><%= locals.formData ? formData.description || '' : '' %></textarea>
             </div>
             
+            <% if (locals.type === 'edit') { %>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input 
+                        type="password" 
+                        name="password" 
+                        id="password" 
+                        placeholder="Enter password to save changes" 
+                        required
+                        autocomplete="current-password"
+                    >
+                </div>
+            <% } %>
+            
             <div class="form-actions">
                 <button type="submit" class="submit-btn"><%= locals.type === 'edit' ? 'Update Game' : 'Add Game' %></button>
                 <a href="/games" class="cancel-btn">Cancel</a>

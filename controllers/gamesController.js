@@ -101,6 +101,10 @@ const insertGame = [
 
 const editGame = [
     validateGame,
+    body("password")
+    .equals(process.env.SECRET)
+    .withMessage("Wrong password"),
+    
     body("title").custom(async (value, { req }) => {
         const game = await queries.getGameByTitle(value);
 
@@ -117,7 +121,7 @@ const editGame = [
             return res.render("gameForm", {
                 genres,
                 errors: errors.array(),
-                formData: req.body,
+                formData: {...req.body, id: req.params.gameId},
                 type: "edit",
             });
         }
@@ -129,11 +133,29 @@ const editGame = [
     },
 ];
 
-async function deleteGame(req, res) {
-    const { gameId } = req.params;
-    await queries.deleteGame(gameId);
+const deleteGame = [
+    body("password").equals(process.env.SECRET).withMessage("Wrong password"),
 
-    res.redirect("/games?gameDeleted=true");
+    async (req, res) => {
+        const errors = validationResult(req);
+
+        if (!errors.isEmpty()) {
+            return res.render("passwordForm", {
+                action: req.originalUrl,
+                errors: errors.array(),
+            });
+        }
+
+        const { gameId } = req.params;
+        await queries.deleteGame(gameId);
+
+        res.redirect("/games?gameDeleted=true");
+    },
+];
+
+function getDeleteGameForm(req, res) {
+    const { gameId } = req.params;
+    res.render("passwordForm", { action: `/games/${gameId}/delete` });
 }
 
 export default {
@@ -143,4 +165,5 @@ export default {
     editGame,
     insertGame,
     deleteGame,
+    getDeleteGameForm,
 };
